@@ -20,11 +20,10 @@ def echo_server():
                     # This loop runs as long as the data being sent is
                     while True:
                         data = connection.recv(2048)
-                        msg = f'{len(data):<{HEADER}}'+ data.decode('utf-8')
                         print(data)
                         if not data:
                             break
-                        connection.send(bytes(msg, 'utf-8'))
+                        connection.send(data)
                     s.close()
                     break
             else: # In the parent process
