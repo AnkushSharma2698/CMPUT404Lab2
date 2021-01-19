@@ -9,7 +9,9 @@ def proxy_client():
         # Connect to the proxy server
         s.connect((HOST, PORT))
         # Send the Request to the proxy
-        s.sendall(b'GET /\r\n')
+        host = 'www.google.com'
+        payload = "GET / HTTP/1.0\r\nHost: {host}\r\n\r\n".format(host=host).encode()
+        s.sendall(payload)
 
         # Loop to recieve the entire message from proxy server
         msg = b""
