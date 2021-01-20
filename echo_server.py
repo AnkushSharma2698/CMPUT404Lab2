@@ -15,23 +15,10 @@ def echo_server():
         while True:
             connection, address = s.accept() # This is blocking
             print("Connector: ", address)
-            child_pid = os.fork() # When a request is received, fork the program
-            if child_pid == 0: # In the child process
-                with connection:
-                    # This loop runs as long as the data being sent is
-                    while True:
-                        data = connection.recv(2048)
-                        print(data)
-                        if not data:
-                            break
-                        connection.send(data)
-                    s.close()
-                    break
-            else: # In the parent process
-                # We do not want the main process dealing with open connections, that simply delegates
-                # to other processes
-                connection.close()
-                    
+            data = connection.recv(4096)
+            connection.sendall(data)
+            connection.close()
+            
 
 
 if __name__ == "__main__":
